@@ -33,14 +33,17 @@ c.execute("""CREATE TABLE IF NOT EXISTS accounts(
     configured INTEGER DEFAULT 0, PRIMARY KEY(user_id, acc_number))""")
 conn.commit()
 
+
 def generate_key(length=12):
     import random, string
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+
 
 def add_key(key, plan, accs, duration_hours):
     c.execute("INSERT INTO keys(key, plan, accs, duration_hours, created_at) VALUES (?, ?, ?, ?, ?)",
               (key, plan, accs, duration_hours, datetime.now().isoformat()))
     conn.commit()
+
 
 def redeem_key(key, user_id):
     c.execute("SELECT * FROM keys WHERE key=? AND used=0", (key,))
@@ -55,8 +58,10 @@ def redeem_key(key, user_id):
     conn.commit()
     return {"plan": plan, "accs": accs, "expire_time": expire_time}
 
+
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=".", intents=intents)
+
 
 async def send_api_request(endpoint, payload):
     async with aiohttp.ClientSession() as session:
@@ -67,6 +72,7 @@ async def send_api_request(endpoint, payload):
                 return await resp.json()
         except:
             return {"status": "error", "reason": "API unreachable"}
+
 
 async def check_loops():
     await bot.wait_until_ready()
@@ -128,6 +134,7 @@ async def check_loops():
 
         await asyncio.sleep(10)
 
+
 class AccountSetupModal(Modal):
     def __init__(self, acc_number, setup_message, setup_view):
         super().__init__(title=f"Account {acc_number} Setup")
@@ -154,10 +161,10 @@ class AccountSetupModal(Modal):
                    ",".join(channels_list), self.message_content.value, int(self.delay.value)))
         conn.commit()
 
-    for item in self.setup_view.children:
-        if isinstance(item, Button) and item.label == f"Setup Acc {self.acc_number}":
-            item.disabled = True
-    await self.setup_message.edit(view=self.setup_view)
+        for item in self.setup_view.children:
+            if isinstance(item, Button) and item.label == f"Setup Acc {self.acc_number}":
+                item.disabled = True
+        await self.setup_message.edit(view=self.setup_view)
 
         payload = {
             "token": self.token.value,
@@ -185,11 +192,14 @@ class AccountSetupModal(Modal):
             except:
                 pass
 
+
 async def create_setup_channel(user: discord.User, accs: int, old_ticket=None):
     guild = old_ticket.guild if old_ticket else bot.guilds[0]
     if old_ticket:
-        try: await old_ticket.delete()
-        except: pass
+        try:
+            await old_ticket.delete()
+        except:
+            pass
     cats = [c for c in guild.categories if c.name.startswith("Setup")]
     category = cats[-1] if cats else await guild.create_category("Setup")
     if cats and len(category.text_channels) >= 50:
@@ -217,18 +227,22 @@ async def create_setup_channel(user: discord.User, accs: int, old_ticket=None):
         c.execute("SELECT configured FROM accounts WHERE user_id=? AND acc_number=?", (str(user.id), i))
         r = c.fetchone()
         btn = Button(label=f"Setup Acc {i}", style=discord.ButtonStyle.green, disabled=(r and r["configured"] == 1))
+
         async def btn_callback(interaction, acc_num=i, setup_msg=setup_message, setup_v=view):
             modal = AccountSetupModal(acc_num, setup_msg, setup_v)
             await interaction.response.send_modal(modal)
+
         btn.callback = btn_callback
         view.add_item(btn)
     await setup_message.edit(view=view)
+
 
 @bot.event
 async def on_ready():
     await bot.tree.sync()
     bot.loop.create_task(check_loops())
     print(f"Logged in as {bot.user} ({bot.user.id})")
+
 
 @bot.tree.command(name="panel", description="Open main panel")
 async def panel(interaction: Interaction):
@@ -243,6 +257,7 @@ async def panel(interaction: Interaction):
     embed = discord.Embed(title="Stocker Panel", description=panel_text, color=discord.Color.blue())
     view = View(timeout=None)
     ticket_btn = Button(label="Open Ticket", style=discord.ButtonStyle.green)
+
     async def ticket_callback(interaction):
         cat = discord.utils.get(interaction.guild.categories, name="Tickets")
         if not cat:
@@ -252,12 +267,18 @@ async def panel(interaction: Interaction):
             interaction.user: discord.PermissionOverwrite(read_messages=True),
             interaction.guild.me: discord.PermissionOverwrite(read_messages=True)
         }
-        ticket_channel = await interaction.guild.create_text_channel(f"ticket-{interaction.user.name.lower()}", category=cat, overwrites=overwrites)
+        ticket_channel = await interaction.guild.create_text_channel(
+            f"ticket-{interaction.user.name.lower()}",
+            category=cat,
+            overwrites=overwrites
+        )
         await ticket_channel.send(embed=discord.Embed(title="Ticket Created", description="Your ticket will be checked soon.", color=discord.Color.green()))
         await ticket_channel.send(f"<@{PING_SELLER}>")
+
     ticket_btn.callback = ticket_callback
     view.add_item(ticket_btn)
     await interaction.response.send_message(embed=embed, view=view)
+
 
 @bot.tree.command(name="gen_key", description="Generate new key")
 @app_commands.describe(duration="Duration in hours", accs="Number of accounts")
@@ -269,6 +290,7 @@ async def gen_key(interaction: Interaction, duration: int, accs: int):
     add_key(key, plan="Custom", accs=accs, duration_hours=duration)
     embed = discord.Embed(title="Key Generated", description=f"`{key}` for {accs} accounts, {duration} hours.", color=discord.Color.blue())
     await interaction.response.send_message(embed=embed, ephemeral=False)
+
 
 @bot.tree.command(name="redeem", description="Redeem key to start setup")
 @app_commands.describe(key="The key to redeem")
@@ -296,5 +318,6 @@ async def redeem(interaction: Interaction, key: str):
         ), ephemeral=True)
     except discord.errors.NotFound:
         pass
+
 
 bot.run(BOT_TOKEN)
