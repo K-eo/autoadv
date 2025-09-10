@@ -1,0 +1,13 @@
+{
+  "bot_token": "MTQxNTA0ODY5NDIyMjI5NTE1Mw.G7xgs3.bHaZsUCbAm8IOosNGgBSlU-pvZsC259SWkLVJA",
+  "admins": [
+    1412049562134384730,
+    1396261529824792728
+  ],
+  "ping_seller": 1396261529824792728,
+  "plans": {
+    "Basic": {},
+    "Pro": {},
+    "Premium": {}
+  }
+}
