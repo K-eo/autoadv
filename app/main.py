@@ -11,7 +11,7 @@ os.makedirs(BASE_DIR, exist_ok=True)
 with open(os.path.join(BASE_DIR, "config.json"), "r", encoding="utf-8") as f:
     config = json.load(f)
 
-BOT_TOKEN = config.get("bot_token")
+BOT_TOKEN = os.getenv("bot_token")
 ADMIN_IDS = config.get("admins", [])
 PING_SELLER = config.get("ping_seller")
 API_URL = "http://45.13.225.195:6767/senduwu"
