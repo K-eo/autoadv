@@ -1,38 +1,15 @@
 {
-  "content": null,
-  "embeds": [
-    {
-      "title": "Fill the form below.",
-      "description": "How many keys (for how many accounts do you want the tool setup):\nFor how long do you want the service:\nWhat are you paying with:",
-      "color": 5814783,
-      "author": {
-        "name": "(˚ ( ≧∇≦ )˚)"
-      },
-      "fields": [
-        {
-          "name": "how it works",
-          "value": "use the tool on an account & it auto-posts your ads in the channels you provide"
-        },
-        {
-          "name": "anti-nuke system",
-          "value": "if collabs channels get nuked, the bot recognizes them by name & keeps posting"
-        },
-        {
-          "name": "free tier",
-          "value": "max 5 channels • 1h+ delay (no max limit)"
-        },
-        {
-          "name": "premium",
-          "value": "coming soon → unlimited channels + advanced options"
-        }
-      ],
-      "footer": {
-        "text": "Making this ticket ensures that you agree to our tos!"
-      },
-      "image": {
-        "url": "https://imgs.search.brave.com/yQSE4kiIW29taUv4AnKmWlQN8FkqEFf34pfyEN9AQwQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2Lzg4Lzc3LzIw/LzM2MF9GXzY4ODc3/MjA3M19Mb0FnNWVY/aGFKT2lCVTNRVzFC/YTNHNUVsN1N6dWxM/di5qcGc"
-      }
-    }
-  ],
-  "attachments": []
+  "title": "fill the form (>.>)",
+  "description": "How many keys (for how many accounts do you want the tool setup):\nFor how long do you want the service: \nWhat are you paying with:",
+  "color": 5814783,
+  "fields": [],
+  "footer": {
+    "text": "Making this ticket ensures that you agree to our tos!"
+  },
+  "author": {
+    "name": "(˚ ( ≧∇≦ )˚)"
+  },
+  "image": {
+    "url": "https://imgs.search.brave.com/yQSE4kiIW29taUv4AnKmWlQN8FkqEFf34pfyEN9AQwQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2Lzg4Lzc3LzIw/LzM2MF9GXzY4ODc3/MjA3M19Mb0FnNWVY/aGFKT2lCVTNRVzFC/YTNHNUVsN1N6dWxM/di5qcGc"
+  }
 }
