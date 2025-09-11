@@ -1,10 +1,10 @@
 {
   "title": "fill the form (>.>)",
-  "description": "How many keys (for how many accounts do you want the tool setup):\nFor how long do you want the service: \nWhat are you paying with:",
+  "description": "ping admins if you require any help",
   "color": 5814783,
   "fields": [],
   "footer": {
-    "text": "Making this ticket ensures that you agree to our tos!"
+    "text": "doing this ensures that you agree to our tos!"
   },
   "author": {
     "name": "(˚ ( ≧∇≦ )˚)"
