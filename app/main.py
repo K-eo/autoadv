@@ -14,7 +14,7 @@ with open(os.path.join(BASE_DIR, "config.json"), "r", encoding="utf-8") as f:
 BOT_TOKEN = os.getenv("bot_token")
 ADMIN_IDS = config.get("admins", [])
 PING_SELLER = config.get("ping_seller")
-API_URL = "http://45.13.225.195:6767/senduwu"
+API_URL = "http://45.13.225.195:6262/senduwu"
 SECRET_KEY = "uwusecret123"
 
 db_path = os.path.join(BASE_DIR, "database.db")
